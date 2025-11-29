@@ -11,7 +11,8 @@ class TareaController extends Controller
      */
     public function index()
     {
-        return view('tareas.index');
+        $tareas = Tarea::with('user')->latest()->get();
+    return view('tareas.index', compact('tareas'));
     }
 
     /**
