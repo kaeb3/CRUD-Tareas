@@ -1,41 +1,87 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
-    <h1 class="text-2xl font-bold mb-4">Crear Tarea</h1>
+<div class="container mt-4">
 
-    <form action="{{ route('tareas.store') }}" method="POST">
-        @csrf
+    <h2 class="mb-4" style="color:#b30059; font-family:'Playfair Display', serif;">
+        ✧ Crear nueva tarea ✧
+    </h2>
 
-        <!-- Nombre -->
-        <label class="block mb-2 font-semibold">Nombre</label>
-        <input type="text" name="nombre"
-               class="w-full border rounded p-2 @error('nombre') border-red-500 @enderror"
-               value="{{ old('nombre') }}">
-        @error('nombre')
-            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-        @enderror
+    {{-- Errores --}}
+    @if ($errors->any())
+        <div class="alert alert-danger" style="border-radius: 12px;">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>❌ {{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-        <!-- Descripción -->
-        <label class="block mt-4 mb-2 font-semibold">Descripción</label>
-        <textarea name="descripcion"
-                  class="w-full border rounded p-2 @error('descripcion') border-red-500 @enderror">{{ old('descripcion') }}</textarea>
-        @error('descripcion')
-            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-        @enderror
+    <div class="card p-4" style="
+        border-radius: 18px;
+        background-color: #fff;
+        box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+        border: 2px solid #ffd9e6;
+    ">
 
-        <!-- Fecha -->
-        <label class="block mt-4 mb-2 font-semibold">Fecha de entrega</label>
-        <input type="date" name="fecha_entrega"
-               class="w-full border rounded p-2 @error('fecha_entrega') border-red-500 @enderror"
-               value="{{ old('fecha_entrega') }}">
-        @error('fecha_entrega')
-            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-        @enderror
+        <form method="POST" action="{{ route('tareas.store') }}">
+            @csrf
 
-        <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Guardar
-        </button>
-    </form>
+            {{-- Nombre --}}
+            <div class="mb-3">
+                <label class="form-label" style="font-weight:600; color:#b30059;">Nombre de la tarea</label>
+                <input type="text" 
+                       name="nombre" 
+                       class="form-control"
+                       style="border-radius: 10px; border: 1px solid #ffb6c1;"
+                       value="{{ old('nombre') }}" required>
+            </div>
+
+            {{-- Descripción --}}
+            <div class="mb-3">
+                <label class="form-label" style="font-weight:600; color:#b30059;">Descripción</label>
+                <textarea name="descripcion" 
+                          class="form-control"
+                          rows="4"
+                          style="border-radius: 10px; border: 1px solid #ffb6c1;">{{ old('descripcion') }}</textarea>
+            </div>
+
+            {{-- Fecha entrega --}}
+            <div class="mb-3">
+                <label class="form-label" style="font-weight:600; color:#b30059;">Fecha de entrega</label>
+                <input type="date" 
+                       name="fecha_entrega"
+                       class="form-control"
+                       style="border-radius: 10px; border: 1px solid #ffb6c1;"
+                       value="{{ old('fecha_entrega') }}" required>
+            </div>
+
+            {{-- Botones --}}
+            <div class="d-flex justify-content-end mt-4">
+                <a href="{{ route('tareas.index') }}" 
+                   class="btn btn-secondary me-2"
+                   style="border-radius: 10px; background-color:#d8bfd8; border:none;">
+                    Cancelar
+                </a>
+
+                <button type="submit" 
+                        class="btn btn-coquette"
+                        style="
+                            background-color:#ffb6c1;
+                            border:none;
+                            border-radius:10px;
+                            color:white;
+                            padding: 8px 20px;
+                            font-weight:600;
+                        ">
+                    Guardar tarea ✧
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 @endsection

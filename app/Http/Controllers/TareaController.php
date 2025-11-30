@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tarea; 
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
@@ -51,7 +52,8 @@ class TareaController extends Controller
      */
     public function show(string $id)
     {
-        //
+       $tarea = Tarea::findOrFail($id);
+    return view('tareas.show', compact('tarea'));
     }
 
     /**
@@ -84,6 +86,9 @@ class TareaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $tarea = Tarea::findOrFail($id);
+    $tarea->delete();
+
+    return redirect()->route('tareas.index')->with('success', 'Tarea eliminada.');
     }
 }
